@@ -6,6 +6,7 @@ var lines=0;
 var triangles=0;
 var semicircles=0;
 var rectangles=0;
+var rectangles=0;
 window.onload = function init(){
     var canvas = document.getElementById( "gl-canvas" );
     gl = WebGLUtils.setupWebGL( canvas ); 
@@ -22,7 +23,13 @@ blue=vec4(40/255, 160/255, 254/255, 1.0);
 red=vec4(203/255, 64/255,66/255, 1.0);
 orange=vec4(241/255, 104/255,103/255, 1.0);
 gray=vec4(215/255, 196/255,187/255, 1.0)
+yellow=vec4(1.0,215/255,0,1.0)
 
+
+//小三角
+triangle(vertices,vertexColors,-0.05,-0.5,0.05,-0.5,0,-0.438,white);//leg
+triangle(vertices,vertexColors,-0.4,0.02,-0.4,0.2,-0.3,0.02,white);//left
+triangle(vertices,vertexColors,0.4,0.02,0.4,0.2,0.3,0.02,white);//right
 
 // circle(vertices,vertexColors,
 //     0.0,
@@ -57,7 +64,26 @@ circle(vertices,vertexColors,
     0.75,
     0.03,
     black); //right eye
-
+circle(vertices,vertexColors,
+    0.0,
+    -0.1,
+    0.28,
+    white);//stomach
+circle(vertices,vertexColors,
+    0.0,
+    -0.0,
+    0.05,
+    yellow);//ring
+circle(vertices,vertexColors,
+    -0.5,
+    -0.205,
+    0.07,
+    black);//left hand
+circle(vertices,vertexColors,
+    0.5,
+    -0.205,
+    0.07,
+    black);//right hand
 semicircle(vertices,vertexColors,
     0.0,
     0.31,
@@ -74,8 +100,19 @@ line(vertices,vertexColors,-0.04,0.42,-0.26,0.37,black);//moustache
 line(vertices,vertexColors,0.04,0.42,0.26,0.37,black);//moustache
 line(vertices,vertexColors,-0.26,0.31,0.26,0.31,black);//mouth
 
-// triangle(vertices,vertexColors,0.2,-0.1,-0.2,-0.1,-0.2,-0.5,white);
-// triangle(vertices,vertexColors,0.2,-0.1,-0.2,-0.5,0.2,-0.5,white);
+
+//body
+rectangle(vertices,vertexColors,-0.40,-0.5,-0.40,0.2,0.40,0.2,0.40,-0.5,blue);
+
+//left arm
+rectangle(vertices,vertexColors,-0.5,-0.28,-0.5,-0.13,-0.4,0.02,-0.15,0.02,blue);
+//right arm
+rectangle(vertices,vertexColors,0.5,-0.28,0.5,-0.13,0.4,0.02,-0.15,0.02,blue);
+
+//necklace
+rectangle(vertices,vertexColors,-0.4,0.02,-0.4,0.08,0.4,0.08,0.4,0.02,red);
+
+
 
 //  Configure WebGL
 gl.viewport( 0, 0, canvas.width, canvas.height );
@@ -108,16 +145,29 @@ render();
 
 function render() {
     gl.clear( gl.COLOR_BUFFER_BIT );
-    gl.drawArrays( gl.TRIANGLES, 0, triangles*3);      
+    //gl.drawArrays( gl.TRIANGLES, 0, triangles*3);     
+    
+    for(i=0;i<rectangles-1;i++){        
+        gl.drawArrays(gl.TRIANGLE_FAN,(circles+ellipses)*362+triangles*3+i*4+semicircles*181+lines*2,4);
+    }
     for(i=0;i<circles+ellipses;i++){
         gl.drawArrays( gl.TRIANGLE_FAN, triangles*3+i*362, 362);       
     }
+    
+    //gl.drawArrays( gl.POINTS, triangles*3+(circles+ellipses-1)*362, 362);
+    
     for(i=0;i<semicircles;i++){
         gl.drawArrays( gl.TRIANGLE_FAN, triangles*3+(circles+ellipses)*362+i*181, 181);       
     }
     for(i=0;i<lines;i++){        
         gl.drawArrays(gl.LINES,(circles+ellipses)*362+triangles*3+i*2+semicircles*181,2);
     }
+    for(i=0;i<triangles;i++){
+        gl.drawArrays( gl.TRIANGLES, 3*i, 3);
+    }
+    //necklace 图层顺序
+    gl.drawArrays(gl.TRIANGLE_FAN,(circles+ellipses)*362+triangles*3+(rectangles-1)*4+semicircles*181+lines*2,4);
+    
 }
 
 function circle(vertices,vertexColors,centerx,centery,radis,colour){
@@ -131,7 +181,7 @@ function circle(vertices,vertexColors,centerx,centery,radis,colour){
 function ellipse(vertices,vertexColors,centerx,centery,radisx,radisy,colour){
     for(var i=0;i<362;i++){
         vertices.push(vec2(centerx+radisx*Math.cos(i/360*6.28),centery+radisy*Math.sin(i/360*6.28)));
-    vertexColors.push(colour);
+        vertexColors.push(colour);
     }
     ellipses++;
 }
@@ -162,6 +212,16 @@ function triangle(vertices,vertexColors,x1,y1,x2,y2,x3,y3,colour){
     vertexColors.push(colour,colour,colour);  
     triangles++;
 }
+
+function rectangle(vertices,vertexColors,x1,y1,x2,y2,x3,y3,x4,y4,colour){
+    vertices.push(vec2(x1,y1));
+    vertices.push(vec2(x2,y2));
+    vertices.push(vec2(x3,y3)); 
+    vertices.push(vec2(x4,y4));    
+    vertexColors.push(colour,colour,colour,colour);  
+    rectangles++;
+}
+
 // function reline(vertices,vertexColors,x1,y1,x2,y2,colour){  
 //     vertices.push(vec2(x1,y1));
 //     vertices.push(vec2(x2,y2));
