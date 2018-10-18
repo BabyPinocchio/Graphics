@@ -24,7 +24,7 @@ red=vec4(203/255, 64/255,66/255, 1.0);
 orange=vec4(241/255, 104/255,103/255, 1.0);
 gray=vec4(215/255, 196/255,187/255, 1.0)
 yellow=vec4(1.0,215/255,0,1.0)
-
+darkblue=vec4(165/255,225/255,228/255,1.0)
 
 //小三角
 triangle(vertices,vertexColors,-0.05,-0.5,0.05,-0.5,0,-0.438,white);//leg
@@ -75,19 +75,19 @@ circle(vertices,vertexColors,
     0.05,
     yellow);//ring
 circle(vertices,vertexColors,
-    -0.5,
+    -0.48,
     -0.205,
-    0.07,
-    black);//left hand
+    0.075,
+    darkblue);//left hand
 circle(vertices,vertexColors,
-    0.5,
+    0.48,
     -0.205,
-    0.07,
-    black);//right hand
+    0.075,
+    darkblue);//right hand
 semicircle(vertices,vertexColors,
     0.0,
     0.31,
-    0.26,
+    0.23,
     orange); 
 //mouth
 
@@ -98,19 +98,19 @@ line(vertices,vertexColors,-0.04,0.52,-0.26,0.57,black);//moustache
 line(vertices,vertexColors,0.04,0.52,0.26,0.57,black);//moustache
 line(vertices,vertexColors,-0.04,0.42,-0.26,0.37,black);//moustache
 line(vertices,vertexColors,0.04,0.42,0.26,0.37,black);//moustache
-line(vertices,vertexColors,-0.26,0.31,0.26,0.31,black);//mouth
+line(vertices,vertexColors,-0.23,0.31,0.23,0.31,black);//mouth
 
 
 //body
-rectangle(vertices,vertexColors,-0.40,-0.5,-0.40,0.2,0.40,0.2,0.40,-0.5,blue);
+rectangle(vertices,vertexColors,-0.35,-0.5,-0.35,0.05,0.35,0.05,0.35,-0.5,blue);
 
 //left arm
-rectangle(vertices,vertexColors,-0.5,-0.28,-0.5,-0.13,-0.4,0.02,-0.15,0.02,blue);
+rectangle(vertices,vertexColors,-0.48,-0.28,-0.48,-0.13,-0.35,0.02,0.15,0.02,blue);
 //right arm
-rectangle(vertices,vertexColors,0.5,-0.28,0.5,-0.13,0.4,0.02,-0.15,0.02,blue);
+rectangle(vertices,vertexColors,0.48,-0.28,0.48,-0.13,0.35,0.02,-0.15,0.02,blue);
 
 //necklace
-rectangle(vertices,vertexColors,-0.4,0.02,-0.4,0.08,0.4,0.08,0.4,0.02,red);
+rectangle(vertices,vertexColors,-0.35,0.02,-0.35,0.08,0.35,0.08,0.35,0.02,red);
 
 
 
