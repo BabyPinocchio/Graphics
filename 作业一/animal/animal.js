@@ -6,7 +6,7 @@ var lines=0;
 var triangles=0;
 var semicircles=0;
 var rectangles=0;
-var rectangles=0;
+
 window.onload = function init(){
     var canvas = document.getElementById( "gl-canvas" );
     gl = WebGLUtils.setupWebGL( canvas ); 
@@ -22,20 +22,17 @@ white=vec4(1.0, 1.0, 1.0, 1.0);
 blue=vec4(40/255, 160/255, 254/255, 1.0);
 red=vec4(203/255, 64/255,66/255, 1.0);
 orange=vec4(241/255, 104/255,103/255, 1.0);
-gray=vec4(215/255, 196/255,187/255, 1.0)
-yellow=vec4(1.0,215/255,0,1.0)
-darkblue=vec4(165/255,225/255,228/255,1.0)
+gray=vec4(215/255, 196/255,187/255, 1.0);
+lightgrey=vec4(192/255,192/255,192/255,1.0);
+yellow=vec4(1.0,215/255,0,1.0);
+darkblue=vec4(165/255,225/255,228/255,1.0);
+pink=vec4(225/255,107/255,140/255,1.0)
 
 //小三角
 triangle(vertices,vertexColors,-0.05,-0.5,0.05,-0.5,0,-0.438,white);//leg
-triangle(vertices,vertexColors,-0.4,0.02,-0.4,0.2,-0.3,0.02,white);//left
-triangle(vertices,vertexColors,0.4,0.02,0.4,0.2,0.3,0.02,white);//right
+triangle(vertices,vertexColors,-0.35,0.08,-0.35,0.13,-0.2,0.08,red);//left
+triangle(vertices,vertexColors,0.35,0.08,0.35,0.13,0.2,0.08,red);//right
 
-// circle(vertices,vertexColors,
-//     0.0,
-//     -0.3,
-//     0.6,
-//     blue); //body
 circle(vertices,vertexColors,
     0.0,
     0.5,
@@ -54,13 +51,14 @@ circle(vertices,vertexColors,
 
 ellipse(vertices,vertexColors,-0.08,0.75,0.08,0.12,gray);//left eye
 ellipse(vertices,vertexColors,0.08,0.75,0.08,0.12,gray);//right eye
+
 circle(vertices,vertexColors,
-    -0.03,
+    -0.04,
     0.75,
     0.03,
     black); //left eye
 circle(vertices,vertexColors,
-    0.03,
+    0.04,
     0.75,
     0.03,
     black); //right eye
@@ -84,12 +82,23 @@ circle(vertices,vertexColors,
     -0.205,
     0.075,
     darkblue);//right hand
+
+ellipse(vertices,vertexColors,-0.2,-0.515,0.18,0.08,lightgrey);//left foot
+ellipse(vertices,vertexColors,0.2,-0.515,0.18,0.08,lightgrey);//right foot
+
 semicircle(vertices,vertexColors,
     0.0,
     0.31,
-    0.23,
+    0.225,
     orange); 
 //mouth
+semicircle(vertices,vertexColors,
+    0.0,
+    -0.16,
+    0.17,
+    pink); 
+//pocket
+
 
 line(vertices,vertexColors,0,0.59,0,0.31,black);//nose-mouth
 line(vertices,vertexColors,-0.04,0.47,-0.28,0.47,black);//moustache
@@ -98,7 +107,7 @@ line(vertices,vertexColors,-0.04,0.52,-0.26,0.57,black);//moustache
 line(vertices,vertexColors,0.04,0.52,0.26,0.57,black);//moustache
 line(vertices,vertexColors,-0.04,0.42,-0.26,0.37,black);//moustache
 line(vertices,vertexColors,0.04,0.42,0.26,0.37,black);//moustache
-line(vertices,vertexColors,-0.23,0.31,0.23,0.31,black);//mouth
+line(vertices,vertexColors,-0.225,0.31,0.225,0.31,black);//mouth
 
 
 //body
@@ -150,20 +159,24 @@ function render() {
     for(i=0;i<rectangles-1;i++){        
         gl.drawArrays(gl.TRIANGLE_FAN,(circles+ellipses)*362+triangles*3+i*4+semicircles*181+lines*2,4);
     }
-    for(i=0;i<circles+ellipses;i++){
+    for(i=0;i<circles+ellipses-2;i++){
         gl.drawArrays( gl.TRIANGLE_FAN, triangles*3+i*362, 362);       
     }
     
     //gl.drawArrays( gl.POINTS, triangles*3+(circles+ellipses-1)*362, 362);
     
     for(i=0;i<semicircles;i++){
-        gl.drawArrays( gl.TRIANGLE_FAN, triangles*3+(circles+ellipses)*362+i*181, 181);       
+        gl.drawArrays( gl.TRIANGLE_FAN, triangles*3+(circles+ellipses)*362+i*181, 181);    
     }
     for(i=0;i<lines;i++){        
         gl.drawArrays(gl.LINES,(circles+ellipses)*362+triangles*3+i*2+semicircles*181,2);
     }
     for(i=0;i<triangles;i++){
         gl.drawArrays( gl.TRIANGLES, 3*i, 3);
+    }
+
+    for(i=circles+ellipses-2;i<circles+ellipses;i++){
+        gl.drawArrays( gl.TRIANGLE_FAN, triangles*3+i*362, 362);       
     }
     //necklace 图层顺序
     gl.drawArrays(gl.TRIANGLE_FAN,(circles+ellipses)*362+triangles*3+(rectangles-1)*4+semicircles*181+lines*2,4);
@@ -190,10 +203,14 @@ function semicircle(vertices,vertexColors,centerx,centery,radis,colour){
     for(var i=0;i<181;i++){
         angle = 6.28 * (i+180) / points;
         vertices.push(vec2(centerx+radis*Math.cos(angle),centery+radis*Math.sin(angle)));
-        if(i!=0)
-            vertexColors.push(colour);
-        else
-            vertexColors.push(white);
+        if(semicircles==0){
+            if(i!=0)
+                vertexColors.push(colour);
+            else
+                vertexColors.push(white);
+        } else{
+                vertexColors.push(colour);
+        }
     }
     semicircles++;
 }
