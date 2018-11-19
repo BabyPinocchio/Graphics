@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+ integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+attribute  vec4 vColor;
+varying vec4 fColor;
+
+uniform mat4 modelViewMatrix;
+
+void main()
+{
+    fColor = vColor;
+    gl_Position = modelViewMatrix * vPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+
+varying vec4 fColor;
+
+void
+main()
+{
+    gl_FragColor = fColor;
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="cubeandtetra.js"></script>
+
+<body>
+<div class="row">
+    <div class="col-md-8">
+        <canvas id="gl-canvas" width="600" height="600">
+        Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </div>
+    <div class="col-md-2">
+        <button id= "CubeLeft" type="button" class="btn btn-info" style="margin-top: 120px;">海绵宝宝前进</button><br/><br/>
+        <button id= "CubeRight" type="button" class="btn btn-info">海绵宝宝后退</button><br/><br/>
+        <button id= "CubeR1" type="button" class="btn btn-info">海绵宝宝逆时针旋转</button><br/><br/>
+        <button id= "CubeR2" type="button" class="btn btn-info">海绵宝宝顺时针旋转</button><br/><br/>
+        <button id= "Obj1Shrink" type="button" class="btn btn-info">海绵宝宝缩小</button><br/><br/>
+        <button id= "Obj1Enlarge" type="button" class="btn btn-info">海绵宝宝放大</button><br/>
+    </div>
+    <div class="col-md-2">
+        <button id= "TetraLeft" type="button" class="btn btn-warning" style="margin-top: 120px;">派大星前进</button><br/><br/>
+        <button id= "TetraRight" type="button" class="btn btn-warning">派大星后退</button><br/><br/>
+        <button id= "TetraR1" type="button" class="btn btn-warning">派大星逆时针旋转</button><br/><br/>
+        <button id= "TetraR2" type="button" class="btn btn-warning">派大星顺时针旋转</button><br/><br/>
+        <button id= "Obj2Shrink" type="button" class="btn btn-warning">派大星缩小</button><br/><br/>
+        <button id= "Obj2Enlarge" type="button" class="btn btn-warning">派大星放大</button><br/>
+    </div>
+</div>
+</body>
+</html>
